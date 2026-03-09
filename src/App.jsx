@@ -55,6 +55,10 @@ const PREPROCESS_PREVIEWS = [
   { label: 'Preprocessed Image', src: PREPROCESSED_SAMPLE_IMG_URL },
   { label: 'OCR Bounding Boxes', src: OCR_BOXES_SAMPLE_IMG_URL },
 ]
+const SAMPLE_UPLOAD_OPTIONS = [
+  { name: 'hire_purchase.pdf', url: HIRE_PURCHASE_PDF_URL },
+  { name: 'us-tax-1040.pdf', url: US_TAX_PDF_URL },
+]
 const SYSTEM_FLOW_STEPS = [
   {
     index: 1,
@@ -142,6 +146,7 @@ function App() {
   const completionWatcherRef = useRef(null)
   const activeJobIdRef = useRef('')
   const currentPageRef = useRef(1)
+  const uploadInputRef = useRef(null)
 
   const [uiState, setUiState] = useState('idle')
   const [route, setRoute] = useState(window.location.pathname === '/demo' ? 'demo' : 'landing')
@@ -496,8 +501,7 @@ function App() {
     return () => window.clearTimeout(timer)
   }, [pageReadyNotice])
 
-  const handleUpload = async (event) => {
-    const file = event.target.files?.[0]
+  const startUploadForFile = async (file) => {
     if (!file) return
 
     const name = file.name.toLowerCase()
@@ -511,7 +515,6 @@ function App() {
     if (!isPdf && !isImage) {
       setUiState('error')
       setErrorMessage('Unsupported file type. Please upload PDF or image.')
-      event.target.value = ''
       return
     }
 
@@ -561,8 +564,43 @@ function App() {
     } catch (error) {
       setUiState('error')
       setErrorMessage(error instanceof Error ? error.message : 'Upload failed.')
-    } finally {
-      event.target.value = ''
+    }
+  }
+
+  const handleUpload = async (event) => {
+    const file = event.target.files?.[0]
+    await startUploadForFile(file)
+    event.target.value = ''
+  }
+
+  const closeUploadDropdown = (event) => {
+    const details = event.currentTarget.closest('details')
+    if (details) {
+      details.removeAttribute('open')
+    }
+  }
+
+  const handleUploadFromDevice = (event) => {
+    closeUploadDropdown(event)
+    if (uiState === 'processing') return
+    uploadInputRef.current?.click()
+  }
+
+  const handleUploadSample = async (event, sampleName, sampleUrl) => {
+    closeUploadDropdown(event)
+    if (uiState === 'processing') return
+
+    try {
+      const response = await fetch(sampleUrl)
+      if (!response.ok) {
+        throw new Error(`Could not load sample file (${response.status})`)
+      }
+      const blob = await response.blob()
+      const sampleFile = new File([blob], sampleName, { type: 'application/pdf' })
+      await startUploadForFile(sampleFile)
+    } catch (error) {
+      setUiState('error')
+      setErrorMessage(error instanceof Error ? error.message : 'Sample upload failed.')
     }
   }
 
@@ -572,8 +610,7 @@ function App() {
       setErrorMessage('No previous file found. Please upload again.')
       return
     }
-    const syntheticEvent = { target: { files: [uploadedFile], value: '' } }
-    await handleUpload(syntheticEvent)
+    await startUploadForFile(uploadedFile)
   }
 
   const clearAll = () => {
@@ -955,10 +992,31 @@ function App() {
         <article className={`panel-card panel-original ${compactLayout && activePanel !== 'original' ? 'hidden-mobile' : ''}`}>
           <header className="panel-header panel-header-actions">
             <span>Original Document</span>
-            <label className={`btn btn-primary btn-sm mb-0 ${uiState === 'processing' ? 'disabled' : ''}`}>
-              Upload Document
-              <input className="d-none" type="file" accept=".pdf,image/*" onChange={handleUpload} disabled={uiState === 'processing'} />
-            </label>
+            <div className="upload-dropdown-wrap">
+              <details className={`upload-dropdown ${uiState === 'processing' ? 'is-disabled' : ''}`}>
+                <summary className="btn btn-primary btn-sm mb-0 upload-dropdown-trigger">
+                  Upload Document
+                  <span className="upload-dropdown-caret">▾</span>
+                </summary>
+                <div className="upload-dropdown-menu">
+                  <button type="button" className="upload-dropdown-item" onClick={handleUploadFromDevice} disabled={uiState === 'processing'}>
+                    Choose from device
+                  </button>
+                  {SAMPLE_UPLOAD_OPTIONS.map((sample) => (
+                    <button
+                      key={sample.name}
+                      type="button"
+                      className="upload-dropdown-item"
+                      onClick={(event) => handleUploadSample(event, sample.name, sample.url)}
+                      disabled={uiState === 'processing'}
+                    >
+                      {sample.name}
+                    </button>
+                  ))}
+                </div>
+              </details>
+              <input ref={uploadInputRef} className="d-none" type="file" accept=".pdf,image/*" onChange={handleUpload} disabled={uiState === 'processing'} />
+            </div>
           </header>
           <div className="panel-scroll">
             {jobId ? (
