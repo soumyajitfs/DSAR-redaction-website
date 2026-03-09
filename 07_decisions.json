@@ -1,0 +1,246 @@
+{
+  "document_type": "email",
+  "classification_confidence": 0.9,
+  "prompt_name": "EMAIL_REDACTION_PROMPT",
+  "model": "gpt-4o",
+  "timestamp": "2026-02-23T18:57:11.434974",
+  "total_boxes": 13,
+  "redacted_count": 2,
+  "kept_count": 11,
+  "decisions": [
+    {
+      "box_id": 0,
+      "text": "New Message - Outlook.",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": null,
+      "data_owner": "Unknown",
+      "is_sensitive": false,
+      "reason": "Non-personal label/header; no sensitive or personal data.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 206.0,
+        "y0": 136.0,
+        "x1": 1192.0,
+        "y1": 221.0
+      }
+    },
+    {
+      "box_id": 1,
+      "text": "From: emily.roberts@finexacorp.com",
+      "redact": true,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": "Email Address",
+      "data_owner": "Third Party",
+      "is_sensitive": true,
+      "reason": "Direct email address of a third-party individual.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 263.0,
+        "y0": 618.0,
+        "x1": 1217.0,
+        "y1": 674.0
+      }
+    },
+    {
+      "box_id": 2,
+      "text": "To: customer.hp.client88@gmail.com",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": "Email Address",
+      "data_owner": "Data Subject",
+      "is_sensitive": true,
+      "reason": "Email address belongs to the Data Subject (customer).",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 263.0,
+        "y0": 698.0,
+        "x1": 1225.0,
+        "y1": 754.0
+      }
+    },
+    {
+      "box_id": 3,
+      "text": "Cc: support@finexafinance.com",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": "Email Address",
+      "data_owner": "Unknown",
+      "is_sensitive": false,
+      "reason": "Generic role-based mailbox; not personal data.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 263.0,
+        "y0": 774.0,
+        "x1": 1091.0,
+        "y1": 830.0
+      }
+    },
+    {
+      "box_id": 4,
+      "text": "Subject: Hire Purchase Agreement - Outstanding Balance Clarification",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": null,
+      "data_owner": "Unknown",
+      "is_sensitive": false,
+      "reason": "Non-personal subject line; no sensitive or personal data.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 263.0,
+        "y0": 850.0,
+        "x1": 2086.0,
+        "y1": 906.0
+      }
+    },
+    {
+      "box_id": 5,
+      "text": "Hi,",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": null,
+      "data_owner": "Unknown",
+      "is_sensitive": false,
+      "reason": "Generic greeting; no sensitive or personal data.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 255.0,
+        "y0": 999.0,
+        "x1": 340.0,
+        "y1": 1071.0
+      }
+    },
+    {
+      "box_id": 6,
+      "text": "Following up on your hire purchase statement for the month of February,",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": null,
+      "data_owner": "Data Subject",
+      "is_sensitive": false,
+      "reason": "General statement related to the Data Subject's account; no sensitive data.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 255.0,
+        "y0": 1151.0,
+        "x1": 2130.0,
+        "y1": 1227.0
+      }
+    },
+    {
+      "box_id": 7,
+      "text": "your outstanding balance stands at $4,218.55 as of 12-Feb-2026.",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": "Financial Information",
+      "data_owner": "Data Subject",
+      "is_sensitive": true,
+      "reason": "Financial information related to the Data Subject's account.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 259.0,
+        "y0": 1243.0,
+        "x1": 1944.0,
+        "y1": 1295.0
+      }
+    },
+    {
+      "box_id": 8,
+      "text": "Your next installment of $350.00 is scheduled for 05-Mar-2026",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": "Financial Information",
+      "data_owner": "Data Subject",
+      "is_sensitive": true,
+      "reason": "Financial information related to the Data Subject's account.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 263.0,
+        "y0": 1396.0,
+        "x1": 1876.0,
+        "y1": 1452.0
+      }
+    },
+    {
+      "box_id": 9,
+      "text": "If you wish to modify your current repayment structure or request a full",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": null,
+      "data_owner": "Data Subject",
+      "is_sensitive": false,
+      "reason": "General statement related to the Data Subject's account; no sensitive data.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 255.0,
+        "y0": 1548.0,
+        "x1": 2082.0,
+        "y1": 1616.0
+      }
+    },
+    {
+      "box_id": 10,
+      "text": "settlement quote, feel free to reply to this email.",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": null,
+      "data_owner": "Data Subject",
+      "is_sensitive": false,
+      "reason": "General informational text directed to the Data Subject, not sensitive or personal.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 263.0,
+        "y0": 1632.0,
+        "x1": 1488.0,
+        "y1": 1688.0
+      }
+    },
+    {
+      "box_id": 11,
+      "text": "Regards,",
+      "redact": false,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": null,
+      "data_owner": "Unknown",
+      "is_sensitive": false,
+      "reason": "Generic closing phrase, not sensitive or personal.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 255.0,
+        "y0": 1777.0,
+        "x1": 497.0,
+        "y1": 1849.0
+      }
+    },
+    {
+      "box_id": 12,
+      "text": "Emily Roberts.",
+      "redact": true,
+      "partial": false,
+      "redact_spans": [],
+      "pii_type": "Name",
+      "data_owner": "Third Party",
+      "is_sensitive": true,
+      "reason": "Contains the name of a third-party individual (staff member), which must be redacted.",
+      "confidence": 1.0,
+      "bbox": {
+        "x0": 255.0,
+        "y0": 1857.0,
+        "x1": 631.0,
+        "y1": 1925.0
+      }
+    }
+  ]
+}
