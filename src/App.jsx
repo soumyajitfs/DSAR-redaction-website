@@ -151,6 +151,7 @@ function App() {
   const [uiState, setUiState] = useState('idle')
   const [route, setRoute] = useState(window.location.pathname === '/demo' ? 'demo' : 'landing')
   const [errorMessage, setErrorMessage] = useState('')
+  const [expandedFlowStepIndex, setExpandedFlowStepIndex] = useState(null)
   const [uploadedName, setUploadedName] = useState('')
   const [uploadedFile, setUploadedFile] = useState(null)
   const [jobId, setJobId] = useState('')
@@ -714,7 +715,11 @@ function App() {
     return { left: `${left}px`, top: `${top}px` }
   }
 
-  const scrollToLandingSection = (sectionId) => {
+  const scrollToLandingSection = (sectionId, stepIndex) => {
+    if (sectionId === 'preprocessing-section') {
+      setExpandedFlowStepIndex((prev) => (prev === stepIndex ? null : stepIndex))
+      return
+    }
     const sectionEl = document.getElementById(sectionId)
     if (!sectionEl) return
     sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -790,7 +795,7 @@ function App() {
           <div className="system-flow-list" role="list">
             {SYSTEM_FLOW_STEPS.map((step, index) => (
               <div key={step.title} className="system-flow-step-wrap" role="listitem">
-                <button type="button" className="system-flow-step" onClick={() => scrollToLandingSection(step.targetId)}>
+                <button type="button" className="system-flow-step" onClick={() => scrollToLandingSection(step.targetId, index)}>
                   <div className="system-flow-step-head">
                     <span className="system-flow-step-index">{step.index}</span>
                     <h4>{step.title}</h4>
@@ -826,85 +831,26 @@ function App() {
                     </div>
                   ) : null}
                 </button>
+                {step.targetId === 'preprocessing-section' && expandedFlowStepIndex === index ? (
+                  <div className="system-flow-inline-details">
+                    <p>Before text extraction, documents undergo a multi-step image processing pipeline to improve OCR accuracy.</p>
+                    <div className="preprocess-grid">
+                      {PREPROCESS_PREVIEWS.map((item) => (
+                        <button key={item.label} type="button" className="image-preview-card" onClick={() => setLandingImagePreview({ title: item.label, url: item.src })}>
+                          <img src={item.src} alt={item.label} />
+                          <span>{item.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                    <ul className="landing-list">
+                      <li>PDF is converted into images and image preprocessing is applied to remove uneven lighting and enhance contrast.</li>
+                      <li>PaddleOCR detects text regions and generates bounding boxes which are mapped back to the original document.</li>
+                    </ul>
+                  </div>
+                ) : null}
                 {index < SYSTEM_FLOW_STEPS.length - 1 ? <div className="system-flow-arrow">↓</div> : null}
               </div>
             ))}
-          </div>
-        </section>
-
-        <section id="preprocessing-section" className="landing-section">
-          <h3>Pre-Processing Pipeline</h3>
-          <p>Before text extraction, documents undergo a multi-step image processing pipeline to improve OCR accuracy.</p>
-          <div className="preprocess-grid">
-            {PREPROCESS_PREVIEWS.map((item) => (
-              <button key={item.label} type="button" className="image-preview-card" onClick={() => setLandingImagePreview({ title: item.label, url: item.src })}>
-                <img src={item.src} alt={item.label} />
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
-          <ul className="landing-list">
-            <li>PDF is converted into images and image preprocessing is applied to remove uneven lighting and enhance contrast.</li>
-            <li>PaddleOCR detects text regions and generates bounding boxes which are mapped back to the original document.</li>
-          </ul>
-        </section>
-
-        <section id="data-subject-section" className="landing-section">
-          <h3>Data Subject Identification</h3>
-          <div className="highlight-block">
-            Identifies the Data Subject - the customer whose data is being requested. This step distinguishes the data subject's personal data from third-party data appearing in the document.
-          </div>
-        </section>
-
-        <section id="classification-section" className="landing-section">
-          <h3>Document Classification Agent</h3>
-          <p>
-            Each page of the document is classified into one of the following types: Email, Agent Notes, Hire Purchase, Government ID, or U.S. Tax. If the system cannot confidently classify the
-            document, it defaults to Unknown and applies the most restrictive redaction policy.
-          </p>
-          <div className="type-badge-row">
-            {['Email', 'Agent Notes', 'Hire Purchase', 'Government ID', 'U.S Tax', 'Unknown'].map((item) => (
-              <span key={item} className="type-badge">
-                {item}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        <section id="decision-engine-section" className="landing-section">
-          <h3>Redaction Decision Engine</h3>
-          <p>
-            The redaction agent receives full page context, identified data subject, and document-type specific rules to decide whether each detected text region should be kept, redacted, or partially
-            masked.
-          </p>
-          <div className="decision-rule-grid">
-            <article className="landing-card">
-              <h4>KEEP</h4>
-              <p>Data subject name, financial information, account references, generic labels, boilerplate text.</p>
-            </article>
-            <article className="landing-card">
-              <h4>REDACT</h4>
-              <p>Third-party personal data, staff names, relationship descriptors, health information, legal privileged content.</p>
-            </article>
-            <article className="landing-card">
-              <h4>PARTIAL</h4>
-              <p>When text contains both safe and sensitive information, only the sensitive substring is masked.</p>
-            </article>
-          </div>
-        </section>
-
-        <section id="output-section" className="landing-section">
-          <h3>Output</h3>
-          <p>Each processed page produces structured JSON output containing:</p>
-          <div className="output-grid">
-            <article className="landing-card">
-              <h4>Document Classification</h4>
-              <p>Type, confidence score, reasoning, keywords.</p>
-            </article>
-            <article className="landing-card">
-              <h4>Per-Box Decisions</h4>
-              <p>Redact/keep verdict, pii type, confidence score, audit reasoning.</p>
-            </article>
           </div>
         </section>
 
