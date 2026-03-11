@@ -767,9 +767,7 @@ function App() {
             <img className="logo" src={FIRSTSOURCE_LOGO_URL} alt="Firstsource logo" />
           </div>
           <div className="landing-hero-content">
-            <h1>DSAR</h1>
-            <h2>Data Subject Access Request</h2>
-            <p>Automatically identify and redact sensitive information from PDF documents.</p>
+            <h2>DSAR - Data Subject Access Request</h2>
           </div>
         </section>
 
@@ -870,13 +868,11 @@ function App() {
           <img className="logo" src={FIRSTSOURCE_LOGO_URL} alt="Firstsource logo" />
         </div>
         <div className="landing-hero-content">
-          <h1>DSAR</h1>
-          <h2>Data Subject Access Request</h2>
-          <p>Automatically identify and redact sensitive information from PDF documents.</p>
-          <button type="button" className="btn btn-outline-secondary btn-sm mt-2" onClick={goToLanding}>
-            Back to Overview
-          </button>
+          <h2>DSAR - Data Subject Access Request</h2>
         </div>
+        <button type="button" className="btn btn-outline-secondary btn-sm dashboard-back-btn dashboard-back-btn-floating" onClick={goToLanding}>
+          Back
+        </button>
       </section>
 
       {uiState === 'error' ? (

@@ -22,7 +22,7 @@
 .landing-shell {
   min-height: 100vh;
   padding: 1rem;
-  background: linear-gradient(180deg, #eef4ff 0%, #f7fbff 100%);
+  background: #edf2f8;
   color: #16305a;
   font-family: 'Chivo', sans-serif;
 }
@@ -49,12 +49,28 @@
 
 .dashboard-top-hero {
   margin-inline: 0.3rem;
+  position: relative;
+}
+
+.dashboard-back-btn {
+  min-width: auto !important;
+  font-size: 0.98rem !important;
+  font-weight: 700 !important;
+  padding: 0.48rem 1rem !important;
+  border-width: 2px !important;
+}
+
+.dashboard-back-btn-floating {
+  position: absolute;
+  top: 0.85rem;
+  right: 1rem;
+  z-index: 4;
 }
 
 .landing-logo-panel {
-  border: 1px solid #bfcfee;
+  border: none;
   border-radius: 12px;
-  background: linear-gradient(90deg, #d2e7fc 0%, #ffffff 51%);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,14 +90,14 @@
 }
 
 .landing-hero-content {
-  border: 1px solid #d4dff4;
+  border: none;
   border-radius: 12px;
-  background: #ffffff;
+  background: transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   padding: 0.8rem 1rem;
 }
 
@@ -91,9 +107,10 @@
 }
 
 .landing-hero-content h2 {
-  margin: 0.25rem 0 0.4rem;
-  font-size: 1.25rem;
-  font-weight: 500;
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #1a325e;
 }
 
 .landing-section {
@@ -391,6 +408,19 @@
   padding-inline: 0.8rem;
 }
 
+.landing-shell .btn-primary {
+  border-color: transparent;
+  background: #13338e;
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(78, 86, 255, 0.35);
+}
+
+.landing-shell .btn-primary:hover,
+.landing-shell .btn-primary:focus {
+  background: #13338e;
+  color: #ffffff;
+}
+
 .landing-pdf-preview-wrap {
   border: 1px solid #cad9f4;
   border-radius: 14px;
@@ -460,11 +490,7 @@
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  background:
-    radial-gradient(circle at 8% 4%, rgba(108, 79, 255, 0.24) 0, transparent 30%),
-    radial-gradient(circle at 90% 96%, rgba(0, 199, 165, 0.19) 0, transparent 36%),
-    radial-gradient(circle at 52% 10%, rgba(0, 144, 255, 0.12) 0, transparent 38%),
-    linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  background: #edf2f8;
 }
 
 .dashboard-shell .btn {
